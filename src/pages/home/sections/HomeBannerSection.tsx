@@ -12,7 +12,7 @@ export default function HomeBannerSection() {
                 <img src={image} alt="Image" className="object-cover hidden lg:block h-full" />
                 <div className="avatar lg:hidden" >
                     <div className="ring-primary ring-offset-base-100 w-24 rounded-full ring ring-offset-2">
-                        <img src={image} />
+                        <img src={image} alt="Image" />
                     </div>
                 </div>
                 <div>
