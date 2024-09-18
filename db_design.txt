@@ -1,0 +1,54 @@
+BannerSchema: 
+    - _id: ObjectId
+    - name: String
+    - image: String
+    - job_profession: String
+    - short_desc: String
+    - resume_link: String
+    - linkedin_link: String
+    - github_link: String
+    - instagram_link: String
+    - twitter_link: String
+    - phone_number: String
+    - email: String
+
+AboutSchema: 
+    - _id: ObjectId
+    - title: String
+    - description: String
+
+SkillsSchema:
+    - _id: ObjectId
+    - name: String
+    - level_percentage: Number
+    - image: String
+
+ExperienceSchema:
+    - _id: ObjectId
+    - company_name: String
+    - company_location: String
+    - job_title: String
+    - startedAt: Date 
+    - endedAt: Date
+    - isCurrent: Boolean
+    - description: String
+
+
+ProjectsSchema:
+    - _id: ObjectId
+    - name: String
+    - description: String
+    - image: [String] 
+    - github_link: String
+    - demo_link: String
+    - technologies: [String]
+    - docs_link: String
+
+
+ContactUsSchema:
+    - _id: ObjectId
+    - description: String
+    - email: String
+    - phone_number: String
+    - address: String
+
