@@ -4,7 +4,7 @@ export default function PortfolioButtonsSection() {
         <div className="space-y-2 space-x-1 items-center">
 
             <a
-                href="https://www.buymeacoffee.com/YOUR_USERNAME"
+                href="https://www.buymeacoffee.com/igaurav.dev"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg transition-colors"
@@ -17,7 +17,7 @@ export default function PortfolioButtonsSection() {
                 Buy me a coffee ☕
             </a>
             <a
-                href="https://www.buymeacoffee.com/YOUR_USERNAME"
+                href="https://frenzycoder.medium.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ml-2 inline-flex items-center px-4 py-2 bg-slate-800 hover:bg-slate-950 text-white font-medium rounded-lg transition-colors"
@@ -32,7 +32,7 @@ export default function PortfolioButtonsSection() {
                 Blogs
             </a>
             <a
-                href="https://discord.gg/YOUR_DISCORD"
+                href="https://discord.gg/igaurav.dev_24962"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ml-2 inline-flex items-center px-4 py-2 bg-[#5865F2] hover:bg-[#4752C4] text-white font-medium rounded-lg transition-colors"
@@ -54,7 +54,7 @@ export default function PortfolioButtonsSection() {
                 Dev.to
             </a>
             <a
-                href="https://youtube.com/@YOUR_CHANNEL"
+                href="https://youtube.com/@jokeryt9832"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ml-2 inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors"
