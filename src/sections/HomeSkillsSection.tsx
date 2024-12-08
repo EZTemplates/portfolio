@@ -21,24 +21,31 @@ export default function HomeSkillsSection() {
     ]
 
     return (
-        <div data-theme="dim">
-            <div className="container m-auto flex flex-col gap-3 p-10">
-                <span className="text-3xl lg:text-5xl text-white text-center">My Skills</span>
-                <span className="text-white text-center">I have worked on various technologies and tools. Here are some of them.</span>
-                <div className="grid md:grid-cols-4 grid-cols-3 gap-2">
+        <div>
+            <div className="container m-auto flex flex-col gap-3 py-6 px-4">
+                <div className="mb-5">
+                    <h2 className="text-3xl font-bold mb-2">My Skills</h2>
+                    <div className="h-1 w-10 bg-primary mt-2"></div>
+                </div>
+                <div className="flex flex-wrap gap-2">
                     {
-                        skills.map((skill, index) => (
-                            <>
-                                <div key={index} className="shadow-xl w-full bg-slate-700 rounded p-3 flex flex-col justify-center items-center lg:justify-start lg:items-start">
-                                    <img src={skill.icon} alt="" className="h-8 w-8 lg:h-10 lg:w-10 lg:mt-2" />
-                                    <span className="text-white font-serif lg:text-2xl lg:mt-2 lg:mb-2">{skill.name}</span>
-                                    <progress className="progress progress-primary mt-2" value={skill.progress_percentage} max="100">67</progress>
-                                </div>
-                            </>
+                        skills.map((skill) => (
+                            <a
+                                href="https://www.buymeacoffee.com/YOUR_USERNAME"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center px-4 py-2 bg-slate-800 hover:bg-slate-950 text-white font-medium rounded-lg transition-colors"
+                            >
+                                <img
+                                    src={skill.icon}
+                                    alt={skill.name}
+                                    className="h-4 w-4 mr-2"
+                                />
+                                {skill.name}
+                            </a>
                         ))
                     }
                 </div>
-
             </div>
         </div>
     )
