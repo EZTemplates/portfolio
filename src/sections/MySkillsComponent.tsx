@@ -1,4 +1,4 @@
-export default function SkillsSection() {
+export default function MySkillsComponent() {
     const skills = [
         { name: 'React', icon: '/icons/react.svg' },
         { name: 'TypeScript', icon: '/icons/typescript.svg' },

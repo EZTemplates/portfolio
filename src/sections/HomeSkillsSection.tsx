@@ -97,7 +97,10 @@ export default function HomeSkillsSection() {
 
             // Animate progress bars
             animate('.skill-progress-bar', {
-                width: (el: HTMLElement) => [0, el.getAttribute('data-width') || '0%'],
+                width: {
+                    from: 0,
+                    to: (el) => el.getAttribute('data-width') || '0%'
+                },
                 delay: (_: unknown, i: number) => 800 + (i * 30),
                 duration: 1000,
                 easing: 'easeInOutQuad'
@@ -268,7 +271,7 @@ export default function HomeSkillsSection() {
                         </div>
                     </div>
 
-                    {Object.entries(skillsByCategory).map(([category, categorySkills], categoryIndex) => (
+                    {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
                         <div key={category} className="skill-category opacity-0">
                             <div className="flex items-center mb-4">
                                 <span className="text-gray-200">
@@ -278,7 +281,7 @@ export default function HomeSkillsSection() {
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {categorySkills.map((skill, skillIndex) => (
+                                {categorySkills.map((skill) => (
                                     <div
                                         key={skill.name}
                                         className="skill-card opacity-0 bg-gray-800 p-4 rounded-lg shadow-md border border-gray-700 hover:border-indigo-500 transition-all duration-300"

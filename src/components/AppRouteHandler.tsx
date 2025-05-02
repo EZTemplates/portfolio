@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
-import AboutUs from '../sections/AboutUs';
-import ExpPage from '../sections/ExpPage';
-import ProjectSection from '../sections/ProjectSection';
+import AboutUs from '../sections/AboutMeComponent';
+import ExpPage from '../sections/MyExperienceComponent';
+import ProjectSection from '../sections/MyProjectComponent';
 import HomeSkillsSection from '../sections/HomeSkillsSection';
-import CommunitySection from '../sections/CommunitySection';
+import CommunitySection from '../sections/MyActivitiesComponent';
 
 export const appRoute = createBrowserRouter([
     {

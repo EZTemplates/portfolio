@@ -17,7 +17,7 @@ interface Project {
     status: 'Ongoing' | 'Completed';
 }
 
-export default function ProjectSection() {
+export default function MyProfileComponent() {
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const projectsGridRef = useRef<HTMLDivElement>(null);

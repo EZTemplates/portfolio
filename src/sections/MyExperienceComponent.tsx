@@ -12,7 +12,7 @@ interface Experience {
     color: string;
 }
 
-export default function ExpPage() {
+export default function MyExperienceComponent() {
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const experiencesRef = useRef<HTMLDivElement>(null);
@@ -156,8 +156,8 @@ export default function ExpPage() {
                                 key={exp.id}
                                 onClick={() => setActiveExp(exp.id)}
                                 className={`timeline-nav-item opacity-0 relative px-6 py-3 rounded-lg focus:outline-none transition-all duration-300 ${activeExp === exp.id
-                                        ? `bg-${exp.color}-600/20 text-${exp.color}-400 font-medium`
-                                        : 'text-gray-400 hover:text-gray-200'
+                                    ? `bg-${exp.color}-600/20 text-${exp.color}-400 font-medium`
+                                    : 'text-gray-400 hover:text-gray-200'
                                     }`}
                             >
                                 <span className="flex items-center gap-2">
@@ -218,8 +218,8 @@ export default function ExpPage() {
                                             onClick={() => setActiveExp(Math.max(0, activeExp - 1))}
                                             disabled={activeExp === 0}
                                             className={`px-3 py-1.5 rounded ${activeExp === 0
-                                                    ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                                                    : 'bg-gray-700 text-white hover:bg-gray-600'
+                                                ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                                : 'bg-gray-700 text-white hover:bg-gray-600'
                                                 } transition-colors`}
                                         >
                                             <span className="flex items-center">
@@ -236,8 +236,8 @@ export default function ExpPage() {
                                             onClick={() => setActiveExp(Math.min(experiences.length - 1, activeExp + 1))}
                                             disabled={activeExp === experiences.length - 1}
                                             className={`px-3 py-1.5 rounded ${activeExp === experiences.length - 1
-                                                    ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                                                    : 'bg-gray-700 text-white hover:bg-gray-600'
+                                                ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
+                                                : 'bg-gray-700 text-white hover:bg-gray-600'
                                                 } transition-colors`}
                                         >
                                             <span className="flex items-center">

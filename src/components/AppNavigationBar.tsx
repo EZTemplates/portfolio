@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { animate } from 'animejs';
 
 interface AppNavigationBarProps {

@@ -1,5 +1,5 @@
 import { Outlet, useLocation, Navigate } from 'react-router-dom'
-import ProfilePage from "./sections/ProfilePage"
+import ProfilePage from "./sections/MyProfileComponent"
 import { AppNavigationBar, MobileNavigation, PortfolioButtonsSection } from "./components"
 import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'

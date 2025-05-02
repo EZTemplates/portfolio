@@ -181,7 +181,7 @@ export default function CommunitySection() {
 
     return (
         <div ref={containerRef} className="min-h-screen opacity-0 py-10">
-            <div className="mx-auto px-6 max-w-5xl relative z-10">
+            <div className="mx-auto px-6 relative z-10">
                 <div className="text-left mb-12">
                     <h2 ref={titleRef} className="text-4xl font-bold text-gray-100 opacity-0 mb-3">My Activities</h2>
                     <div className="activities-divider h-1 w-0 bg-gradient-to-r from-indigo-600 to-blue-600 mt-3 mb-6 opacity-0 rounded-full"></div>

@@ -8,7 +8,7 @@ import linkedIn from "/linkedIn.png";
 import email from "/email.png";
 import phone from "/phone.png";
 
-export default function ProfilePage() {
+export default function MyProfileComponent() {
     const profileRef = useRef<HTMLDivElement>(null);
     const nameRef = useRef<HTMLHeadingElement>(null);
     const titleRef = useRef<HTMLParagraphElement>(null);
