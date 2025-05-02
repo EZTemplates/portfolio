@@ -16,6 +16,10 @@ export const appRoute = createBrowserRouter([
                 element: <AboutUs />
             },
             {
+                path: "profile",
+                element: <AboutUs /> // Redirect to About page on profile path for consistency
+            },
+            {
                 path: "experience",
                 element: <ExpPage />
             },
