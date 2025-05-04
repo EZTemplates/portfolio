@@ -94,7 +94,7 @@ export default function AboutUs() {
                 <div className="floating-element absolute top-[60%] right-[20%] w-28 h-28 bg-emerald-600/10 dark:bg-emerald-500/15 rounded-full blur-xl"></div>
             </div>
 
-            <div className="mx-auto py-12 px-4 max-w-5xl relative z-10">
+            <div className="mx-auto py-12 px-4 relative z-10">
                 <div className="mb-8 text-left">
                     <h2 ref={titleRef} className="text-3xl font-bold text-gray-100 opacity-0">About Me</h2>
                     <div className="about-divider h-1 w-0 bg-indigo-600 mt-3 opacity-0"></div>

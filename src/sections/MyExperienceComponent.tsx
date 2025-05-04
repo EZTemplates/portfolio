@@ -139,7 +139,7 @@ export default function MyExperienceComponent() {
     };
 
     return (
-        <div ref={containerRef} className="min-h-screen opacity-0">
+        <div ref={containerRef} className="min-h-screen bg-transparent opacity-0">
             <div className="mx-auto px-4 py-6">
                 <div className="mb-8">
                     <h2 ref={titleRef} className="text-3xl font-bold text-gray-100 opacity-0">Experience</h2>

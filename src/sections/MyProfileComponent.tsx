@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { animate } from "animejs";
 import image from "/image.png";
 import x from "/x.png";
@@ -16,6 +16,7 @@ export default function MyProfileComponent() {
     const contactRef = useRef<HTMLDivElement>(null);
     const socialIconsRef = useRef<HTMLDivElement>(null);
     const resumeButtonRef = useRef<HTMLAnchorElement>(null);
+    const [location, setLocation] = useState<string | null>(null);
 
     useEffect(() => {
         // Main container fade in
@@ -98,10 +99,20 @@ export default function MyProfileComponent() {
                 easing: "easeOutElastic(1, .5)"
             });
         }
+
+        // Fetch current location
+        fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(data => {
+                if (data && (data.city || data.country_name)) {
+                    setLocation(`${data.city ? data.city + ', ' : ''}${data.country_name || ''}`);
+                }
+            })
+            .catch(() => setLocation(null));
     }, []);
 
     return (
-        <div ref={profileRef} className="opacity-0 w-full">
+        <div ref={profileRef} className="opacity-0 w-full bg-transparent">
             <div className="bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
                 <div className="flex flex-col items-center text-center p-3 sm:p-4 md:p-5">
                     {/* Header with Avatar and Name */}
@@ -132,6 +143,16 @@ export default function MyProfileComponent() {
                             </span>
                         </p>
                     </div>
+
+                    {/* Location display */}
+                    {location && (
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                            <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c1.104 0 2-.896 2-2s-.896-2-2-2-2 .896-2 2 .896 2 2 2zm0 0c-4 0-7 2.239-7 5v2a1 1 0 001 1h12a1 1 0 001-1v-2c0-2.761-3-5-7-5z" />
+                            </svg>
+                            <span className="text-sm text-gray-600 dark:text-gray-300">{location}</span>
+                        </div>
+                    )}
 
                     {/* Social Icons */}
                     <div ref={socialIconsRef} className="flex gap-3 sm:gap-3 justify-center mb-3 sm:mb-3">
