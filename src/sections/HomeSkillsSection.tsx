@@ -1,46 +1,28 @@
 import { useEffect, useRef } from 'react';
 import { animate } from 'animejs';
+import { useFetchSkills } from '../core/hooks/useFetchSkills';
+import { useFetchSkillOverview } from '../core/hooks/useFetchSkillOverview';
+import HomeSkillsShimmer from '../components/shimmers/HomeSkillsShimmer';
+import { Helmet } from 'react-helmet-async';
 
-interface Skill {
-    name: string;
-    level: number;
-    category: string;
-    color: string;
-}
+const tagColors = [
+    { bg: 'bg-blue-900/30', text: 'text-blue-400', border: 'border-blue-800/50' },
+    { bg: 'bg-purple-900/30', text: 'text-purple-400', border: 'border-purple-800/50' },
+    { bg: 'bg-green-900/30', text: 'text-green-400', border: 'border-green-800/50' },
+    { bg: 'bg-pink-900/30', text: 'text-pink-400', border: 'border-pink-800/50' },
+    { bg: 'bg-indigo-900/30', text: 'text-indigo-400', border: 'border-indigo-800/50' },
+    { bg: 'bg-cyan-900/30', text: 'text-cyan-400', border: 'border-cyan-800/50' },
+];
 
 export default function HomeSkillsSection() {
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const skillsRef = useRef<HTMLDivElement>(null);
 
-    const skills: Skill[] = [
-        // Frontend
-        { name: 'React.js', level: 90, category: 'Frontend', color: 'blue' },
-        { name: 'JavaScript', level: 95, category: 'Frontend', color: 'yellow' },
-        { name: 'TypeScript', level: 85, category: 'Frontend', color: 'blue' },
-        { name: 'HTML/CSS', level: 90, category: 'Frontend', color: 'orange' },
-        { name: 'Tailwind CSS', level: 92, category: 'Frontend', color: 'teal' },
-        { name: 'Next.js', level: 80, category: 'Frontend', color: 'gray' },
+    const { data: skills } = useFetchSkills();
+    const { isLoading, data: overview } = useFetchSkillOverview();
 
-        // Mobile
-        { name: 'Flutter', level: 95, category: 'Mobile', color: 'blue' },
-        { name: 'Dart', level: 90, category: 'Mobile', color: 'blue' },
-        { name: 'React Native', level: 75, category: 'Mobile', color: 'blue' },
-
-        // Backend
-        { name: 'Node.js', level: 85, category: 'Backend', color: 'green' },
-        { name: 'Express.js', level: 88, category: 'Backend', color: 'gray' },
-        { name: 'MongoDB', level: 80, category: 'Backend', color: 'green' },
-        { name: 'Firebase', level: 85, category: 'Backend', color: 'yellow' },
-
-        // Tools & Others
-        { name: 'Git', level: 92, category: 'Tools', color: 'red' },
-        { name: 'Docker', level: 70, category: 'Tools', color: 'blue' },
-        { name: 'AWS', level: 65, category: 'Tools', color: 'yellow' },
-        { name: 'Figma', level: 75, category: 'Tools', color: 'purple' }
-    ];
-
-    useEffect(() => {
+    const runAnimations = () => {
         if (containerRef.current) {
             animate(containerRef.current, {
                 opacity: [0, 1],
@@ -68,7 +50,6 @@ export default function HomeSkillsSection() {
         }
 
         if (skillsRef.current) {
-            // Animate category headers
             animate('.skill-category', {
                 opacity: [0, 1],
                 translateY: [20, 0],
@@ -77,7 +58,6 @@ export default function HomeSkillsSection() {
                 easing: 'easeOutQuad'
             });
 
-            // Animate skill cards
             animate('.skill-card', {
                 opacity: [0, 1],
                 translateY: [20, 0],
@@ -85,135 +65,145 @@ export default function HomeSkillsSection() {
                 duration: 600,
                 easing: 'easeOutQuad'
             });
-
-            // Animate progress bars
-            animate('.skill-progress-bar', {
-                width: {
-                    from: 0,
-                    to: (el) => el.getAttribute('data-width') || '0%'
-                },
-                delay: (_: unknown, i: number) => 800 + (i * 30),
-                duration: 1000,
-                easing: 'easeInOutQuad'
-            });
         }
-    }, []);
+    };
 
-    const getSkillColor = (level: number) => {
-        if (level >= 90) return 'bg-gradient-to-br from-green-400 to-green-600'; // Expert
-        if (level >= 80) return 'bg-gradient-to-br from-blue-400 to-blue-600'; // Advanced
-        if (level >= 70) return 'bg-gradient-to-br from-indigo-400 to-indigo-600'; // Proficient
-        if (level >= 60) return 'bg-gradient-to-br from-yellow-400 to-yellow-600'; // Intermediate
-        return 'bg-gradient-to-br from-red-400 to-red-600'; // Beginner
+    useEffect(() => {
+        if (!isLoading) {
+            runAnimations();
+        }
+    }, [isLoading]);
+
+    if (isLoading) {
+        return <HomeSkillsShimmer />;
+    }
+
+    const getSkillColor = (level: string) => {
+        const levelMap = {
+            expert: 'from-green-400 to-green-600',
+            advanced: 'from-blue-400 to-blue-600',
+            proficient: 'from-indigo-400 to-indigo-600',
+            intermediate: 'from-yellow-400 to-yellow-600',
+            beginner: 'from-red-400 to-red-600'
+        };
+        return `bg-gradient-to-br ${levelMap[level.toLowerCase() as keyof typeof levelMap] || levelMap.beginner}`;
     };
 
     return (
-        <div ref={containerRef} className="min-h-screen p-6 opacity-0">
-            <div className="mx-auto">
-                <div className="mb-8">
-                    <h2 ref={titleRef} className="text-3xl font-bold text-gray-100 opacity-0">Technical Skills</h2>
-                    <div className="skills-divider h-1 w-0 bg-indigo-600 mt-3 opacity-0"></div>
-                    <p className="mt-4 text-gray-300 max-w-3xl">
-                        My technical expertise spans across various domains of software development, from frontend and backend to mobile and DevOps.
-                    </p>
+        <>
+            <Helmet>
+                <title>My Skills</title>
+                <meta name="description" content={"My skills across different technologies, showcasing my skills and expertise."} />
+            </Helmet>
+            <div ref={containerRef} className="min-h-screen p-6 opacity-0">
+                {/* Animated background elements */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="floating-element absolute top-[10%] left-[5%] w-32 h-32 bg-indigo-600/10 dark:bg-indigo-500/15 rounded-full blur-xl"></div>
+                    <div className="floating-element absolute top-[40%] right-[8%] w-40 h-40 bg-blue-600/10 dark:bg-blue-500/15 rounded-full blur-xl"></div>
+                    <div className="floating-element absolute bottom-[15%] left-[15%] w-24 h-24 bg-purple-600/10 dark:bg-purple-500/15 rounded-full blur-xl"></div>
+                    <div className="floating-element absolute top-[60%] right-[20%] w-28 h-28 bg-emerald-600/10 dark:bg-emerald-500/15 rounded-full blur-xl"></div>
                 </div>
-
-                <div ref={skillsRef} className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-700">
-                        <div className="flex items-center mb-6">
-                            <div className="w-12 h-12 mr-4 bg-indigo-600/20 rounded-full flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 className="text-xl font-bold text-white">Profile Overview</h3>
-                                <p className="text-gray-400">Full Stack & Mobile Developer</p>
-                            </div>
-                        </div>
-                        <div className="space-y-4">
-                            <div>
-                                <h4 className="text-lg font-medium text-gray-200 mb-2">About Me</h4>
-                                <p className="text-gray-300">
-                                    Passionate developer with expertise in Full Stack and Mobile development.
-                                    Committed to creating efficient, scalable, and user-friendly applications
-                                    that solve real-world problems.
-                                </p>
-                            </div>
-                            <div>
-                                <h4 className="text-lg font-medium text-gray-200 mb-2">Current Focus</h4>
-                                <p className="text-gray-300">
-                                    Currently focused on mastering advanced React patterns, exploring serverless architectures,
-                                    and diving deeper into mobile app performance optimization.
-                                </p>
-                            </div>
-                            <div className="flex flex-wrap gap-2 mt-4">
-                                <span className="text-xs px-2.5 py-1 rounded-full bg-blue-900/30 text-blue-400 border border-blue-800/50">
-                                    Problem Solver
-                                </span>
-                                <span className="text-xs px-2.5 py-1 rounded-full bg-purple-900/30 text-purple-400 border border-purple-800/50">
-                                    Fast Learner
-                                </span>
-                                <span className="text-xs px-2.5 py-1 rounded-full bg-green-900/30 text-green-400 border border-green-800/50">
-                                    Team Player
-                                </span>
-                                <span className="text-xs px-2.5 py-1 rounded-full bg-yellow-900/30 text-yellow-400 border border-yellow-800/50">
-                                    Detail-Oriented
-                                </span>
-                            </div>
-                        </div>
+                <div className="mx-auto">
+                    <div className="mb-8">
+                        <h2 ref={titleRef} className="text-3xl font-bold text-gray-100 opacity-0">
+                            My Skills
+                        </h2>
+                        <div className="skills-divider h-1 w-0 bg-indigo-600 mt-3 opacity-0"></div>
+                        <p className="mt-4 text-gray-300 max-w-3xl">
+                            {overview?.subtitle}
+                        </p>
                     </div>
 
-                    <div>
-                        <h3 className="text-xl font-semibold text-gray-100 mb-4">Skills</h3>
-                        <div className="flex flex-wrap gap-3 justify-center mb-6">
-                            <div className="flex items-center gap-2">
-                                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-green-400 to-green-600 border border-white/20"></span>
-                                <span className="text-xs text-gray-200">Expert</span>
+                    <div ref={skillsRef} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="bg-gray-800 rounded-lg p-6 shadow-lg border border-gray-700">
+                            <div className="flex items-center mb-6">
+                                <div className="w-12 h-12 mr-4 bg-indigo-600/20 rounded-full flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-white">Profile Overview</h3>
+                                    <p className="text-gray-400">{overview?.role}</p>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border border-white/20"></span>
-                                <span className="text-xs text-gray-200">Advanced</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 border border-white/20"></span>
-                                <span className="text-xs text-gray-200">Proficient</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 border border-white/20"></span>
-                                <span className="text-xs text-gray-200">Intermediate</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="w-5 h-5 rounded-full bg-gradient-to-br from-red-400 to-red-600 border border-white/20"></span>
-                                <span className="text-xs text-gray-200">Beginner</span>
+                            <div className="space-y-4">
+                                <div>
+                                    <h4 className="text-lg font-medium text-gray-200 mb-2">About Me</h4>
+                                    <p className="text-gray-300">
+                                        {overview?.about_me}
+                                    </p>
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-medium text-gray-200 mb-2">Current Focus</h4>
+                                    <p className="text-gray-300">
+                                        {overview?.current_focus}
+                                    </p>
+                                </div>
+                                <div className="flex flex-wrap gap-2 mt-4">
+                                    {overview?.tags.map((tag, index) => {
+                                        const colorIndex = index % tagColors.length;
+                                        const { bg, text, border } = tagColors[colorIndex];
+
+                                        return (
+                                            <span
+                                                key={tag}
+                                                className={`text-xs px-2.5 py-1 rounded-full ${bg} ${text} border ${border}
+                                                      transition-all duration-300 hover:scale-110`}
+                                            >
+                                                {tag}
+                                            </span>
+                                        );
+                                    })}
+                                </div>
                             </div>
                         </div>
-                        <div className="flex flex-wrap gap-3 justify-center">
-                            {skills.map((skill, i) => (
-                                <div
-                                    key={skill.name}
-                                    className={`
+
+                        <div>
+                            <h3 className="text-xl font-semibold text-gray-100 mb-4">Skills</h3>
+                            <div className="flex flex-wrap gap-3 justify-center mb-6">
+                                <div className="flex items-center gap-2">
+                                    <span className="w-5 h-5 rounded-full bg-gradient-to-br from-green-400 to-green-600 border border-white/20"></span>
+                                    <span className="text-xs text-gray-200">Expert</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border border-white/20"></span>
+                                    <span className="text-xs text-gray-200">Advanced</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="w-5 h-5 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 border border-white/20"></span>
+                                    <span className="text-xs text-gray-200">Proficient</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="w-5 h-5 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 border border-white/20"></span>
+                                    <span className="text-xs text-gray-200">Intermediate</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="w-5 h-5 rounded-full bg-gradient-to-br from-red-400 to-red-600 border border-white/20"></span>
+                                    <span className="text-xs text-gray-200">Beginner</span>
+                                </div>
+                            </div>
+                            <div className="flex flex-wrap gap-3 justify-center">
+                                {skills?.map((skill) => (
+                                    <div
+                                        key={skill._id}
+                                        className={`
                                         skill-chip
                                         flex items-center px-5 py-2 rounded-full shadow-md
                                         ${getSkillColor(skill.level)}
                                         text-white font-semibold text-sm
                                         transition-transform duration-300
                                         hover:scale-110 hover:shadow-xl
-                                        animate-fade-in-up
                                     `}
-                                    style={{
-                                        animationDelay: `${i * 60}ms`,
-                                        minWidth: 0,
-                                        maxWidth: '100%',
-                                    }}
-                                >
-                                    <span className="truncate">{skill.name}</span>
-                                </div>
-                            ))}
+                                    >
+                                        <span className="truncate">{skill.title}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

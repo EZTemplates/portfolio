@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { animate } from 'animejs';
+import ComingSoonComponent from '../components/ComingSoonComponent';
 
 interface Activity {
     id: string;
@@ -178,6 +179,10 @@ export default function CommunitySection() {
                 return null;
         }
     };
+
+    return (
+        <ComingSoonComponent />
+    );
 
     return (
         <div ref={containerRef} className="min-h-screen opacity-0 py-10">

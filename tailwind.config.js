@@ -9,6 +9,15 @@ export default {
     extend: {
       animation: {
         'spin-slow': 'spin 8s linear infinite',
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100%)' }
+        }
+      },
+      animation: {
+        shimmer: 'shimmer 2s linear infinite'
       }
     },
   },
