@@ -21,7 +21,6 @@ export class API {
     }
     static async getProjectFilter(): Promise<IProjectFilter> {
         const response = await axios.get(PROJECT_FILTER + `?domain=${this.getDomain()}`)
-        console.log(response.data.data)
         return response.data.data as IProjectFilter
     }
 

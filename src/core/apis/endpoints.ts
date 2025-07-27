@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.igaurav.dev/api/v1/public";
+export const BASE_URL = "https://api.biosites.in/api/v1/public";
 export const PROJECT_FILTER = `${BASE_URL}/project-filters`
 export const PROFILE = `${BASE_URL}/profile`
 export const SOCIAL_LINKS = `${BASE_URL}/social-links`
