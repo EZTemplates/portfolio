@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { animate } from 'animejs';
 import { useFetchPaginatedBlogs } from '../../core/hooks/useFetchBlogs';
 import { useInView } from 'react-intersection-observer';

@@ -16,7 +16,7 @@ export class API {
     static getDomain() {
         const domain = window.location.hostname;
         if (domain.includes("localhost")) {
-            return "gaurav.biosites.in";
+            return "frenzycoder.biosites.in";
         }
         return domain;
     }
@@ -41,8 +41,20 @@ export class API {
     }> {
         const response = await axios.get(ABOUT + `?domain=${this.getDomain()}`)
         return {
-            about: response.data.data,
-            core_strengths: response.data.core_strengths
+            about: response.data.data ?? {
+                subheading: "Not Available",
+                about_me: "Not Available",
+                my_specialization_details: "Not Available",
+                beyond_skills_details: "Not Available",
+                projects_highlights: "Not Available",
+                email: "Not Available",
+                open_to_work: false
+            },
+            core_strengths: response.data.core_strengths ?? [
+                { name: "Not Available", current_points: 0, max_points: 100 },
+                { name: "Not Available", current_points: 0, max_points: 100 },
+                { name: "Not Available", current_points: 0, max_points: 100 }
+            ]
         }
     }
 
