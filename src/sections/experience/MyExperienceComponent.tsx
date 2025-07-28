@@ -3,6 +3,7 @@ import { animate } from 'animejs';
 import { useFetchExperience } from '../../core/hooks/useFetchExperience';
 import ExperienceShimmer from '../../components/shimmers/ExperienceShimmer';
 import { Helmet } from 'react-helmet-async';
+import { useProfileStore } from '../../core/store/useProfileStore';
 
 const getColorByIndex = (index: number) => {
     const colors = [
@@ -35,6 +36,7 @@ export default function MyExperienceComponent() {
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
+    const { profile } = useProfileStore()
 
     const { data, isLoading, error } = useFetchExperience();
 
@@ -108,10 +110,67 @@ export default function MyExperienceComponent() {
     }, [data]);
 
     if (isLoading) return <ExperienceShimmer />;
-    if (error || !data) {
+
+    // Fallback data for when data is null or empty
+    const experienceData = data || [];
+
+    if (error || !data || data.length === 0) {
         return (
-            <div className="flex items-start">
-                <p className="text-red-500">Failed to load experience data</p>
+            <div className="min-h-screen flex items-start pt-20">
+                <div className="text-center max-w-md mx-auto p-8">
+                    <div className="mb-6">
+                        <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                            <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-100 mb-2">Oops! No Experience Found</h2>
+                        <p className="text-gray-400 mb-4">Looks like I'm still building my career story! 🚀</p>
+                    </div>
+
+                    <div className="bg-gray-800/70 backdrop-blur-sm border border-gray-700/70 rounded-xl p-6">
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-3">
+                                <span className="text-2xl">🤔</span>
+                                <div>
+                                    <h3 className="text-lg font-semibold text-gray-200">Still Learning & Growing</h3>
+                                    <p className="text-sm text-gray-400">Every expert was once a beginner!</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-3">
+                                <span className="text-2xl">💡</span>
+                                <div>
+                                    <h3 className="text-lg font-semibold text-gray-200">Building Something Amazing</h3>
+                                    <p className="text-sm text-gray-400">Currently crafting my next big adventure...</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-3">
+                                <span className="text-2xl">🎯</span>
+                                <div>
+                                    <h3 className="text-lg font-semibold text-gray-200">Ready for Opportunities</h3>
+                                    <p className="text-sm text-gray-400">Open to exciting new challenges!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 pt-4 border-t border-gray-700/50">
+                            <p className="text-xs text-gray-500 italic">
+                                "The only way to do great work is to love what you do." - Steve Jobs
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="mt-6">
+                        <a href="/about" className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            Learn More About Me
+                        </a>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -126,8 +185,8 @@ export default function MyExperienceComponent() {
     return (
         <>
             <Helmet>
-                <title>My Experience</title>
-                <meta name="description" content="My professional journey across different organizations and roles, showcasing my growth." />
+                <title>{profile?.name} | My Experience</title>
+                <meta name="description" content={profile?.short_info} />
             </Helmet>
             <div ref={containerRef} className="min-h-screen relative overflow-hidden opacity-0">
                 {/* Animated background elements */}
@@ -150,7 +209,7 @@ export default function MyExperienceComponent() {
 
                     {/* Experience Cards */}
                     <div ref={contentRef} className="relative space-y-4">
-                        {data.map((exp, index) => {
+                        {experienceData.map((exp, index) => {
                             const color = getColorByIndex(index);
                             return (
                                 <div key={exp._id}

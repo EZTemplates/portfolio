@@ -7,3 +7,5 @@ export const SKILLS = `${BASE_URL}/skills`
 export const EXPERIENCE = `${BASE_URL}/experiences`
 export const PROJECTS = `${BASE_URL}/projects`
 export const SKILL_OVERVIEW = `${BASE_URL}/skills-overview`
+export const FETCH_BLOGS = `${BASE_URL}/blogs`
+export const BLOG_DETAILS = `${BASE_URL}/blogs`

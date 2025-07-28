@@ -6,6 +6,7 @@ import ProjectItemComponent from './ProjectItemComponent';
 import { useInView } from 'react-intersection-observer';
 import FilterDropdown from '../../components/FilterDropdown';
 import { Helmet } from 'react-helmet-async';
+import { useProfileStore } from '../../core/store/useProfileStore';
 
 export default function MyProfileComponent() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -13,6 +14,7 @@ export default function MyProfileComponent() {
     const projectsGridRef = useRef<HTMLDivElement>(null);
     const { data, selectedFilter, setSelectedSkill, setSelectedType, setSelectedStatus } = useFilterStore();
     const { data: projects, fetchNextPage, hasNextPage, isFetchingNextPage } = useFetchPaginatedProject(selectedFilter);
+    const { profile } = useProfileStore()
 
     // Setup intersection observer for infinite scroll
     const { ref: loadMoreRef, inView } = useInView({
@@ -122,8 +124,8 @@ export default function MyProfileComponent() {
     return (
         <>
             <Helmet>
-                <title>My Projects</title>
-                <meta name="description" content={"My projects across different technologies, showcasing my skills and expertise."} />
+                <title>{profile?.name} | My Projects</title>
+                <meta name="description" content={profile?.short_info} />
             </Helmet>
             <section ref={containerRef} className="py-8 min-h-screen opacity-0">
                 {/* Animated background elements */}

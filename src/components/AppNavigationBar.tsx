@@ -100,14 +100,14 @@ export default function AppNavigationBar({ showProfileLink = false }: AppNavigat
                 </li>
                 <li>
                     <Link
-                        to="/community"
+                        to="/blogs"
                         className={`nav-link opacity-0 flex flex-col items-center transition-all duration-300 ${isActive('/community')
                             ? 'text-indigo-600 dark:text-indigo-400 font-medium'
                             : 'text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400'
                             }`}
                     >
-                        <span className="text-sm md:text-base">My Activities</span>
-                        {isActive('/community') && <span className="h-0.5 w-4/6 bg-indigo-600 dark:bg-indigo-400 mt-1 rounded-full"></span>}
+                        <span className="text-sm md:text-base">My Blogs</span>
+                        {isActive('/blogs') && <span className="h-0.5 w-4/6 bg-indigo-600 dark:bg-indigo-400 mt-1 rounded-full"></span>}
                     </Link>
                 </li>
             </ul>

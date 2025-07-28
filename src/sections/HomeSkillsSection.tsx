@@ -4,6 +4,7 @@ import { useFetchSkills } from '../core/hooks/useFetchSkills';
 import { useFetchSkillOverview } from '../core/hooks/useFetchSkillOverview';
 import HomeSkillsShimmer from '../components/shimmers/HomeSkillsShimmer';
 import { Helmet } from 'react-helmet-async';
+import { useProfileStore } from '../core/store/useProfileStore';
 
 const tagColors = [
     { bg: 'bg-blue-900/30', text: 'text-blue-400', border: 'border-blue-800/50' },
@@ -18,6 +19,7 @@ export default function HomeSkillsSection() {
     const containerRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const skillsRef = useRef<HTMLDivElement>(null);
+    const { profile } = useProfileStore()
 
     const { data: skills } = useFetchSkills();
     const { isLoading, data: overview } = useFetchSkillOverview();
@@ -92,8 +94,8 @@ export default function HomeSkillsSection() {
     return (
         <>
             <Helmet>
-                <title>My Skills</title>
-                <meta name="description" content={"My skills across different technologies, showcasing my skills and expertise."} />
+                <title>{profile?.name} | My Skills</title>
+                <meta name="description" content={profile?.short_info} />
             </Helmet>
             <div ref={containerRef} className="min-h-screen p-6 opacity-0">
                 {/* Animated background elements */}

@@ -12,7 +12,7 @@ const queryClient = new QueryClient({
       retry: (failureCount, error: unknown) => {
         const axiosError = error as { response?: { status: number } };
         if (axiosError?.response?.status === 404 || axiosError?.response?.status === 401) {
-          window.location.href = '/404';
+          // window.location.href = '/404';
           return false;
         }
         return failureCount < 3;
@@ -22,7 +22,7 @@ const queryClient = new QueryClient({
       onError: (error: unknown) => {
         const axiosError = error as { response?: { status: number } };
         if (axiosError?.response?.status === 404 || axiosError?.response?.status === 401) {
-          window.location.href = '/404';
+          // window.location.href = '/404';
         }
       }
     }

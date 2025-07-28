@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react'
 import './styles/scrollbar-hide.css';
 import { useFetchFilter } from './core/hooks/useFetchFilter'
 import LoadingView from './components/LoadingView';
+import { useFetchProfile } from './core/hooks/useFetchProfile';
 
 
 function App() {
+  useFetchProfile();
   const location = useLocation();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const { isLoading } = useFetchFilter();

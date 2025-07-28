@@ -4,6 +4,7 @@ import { useFetchAbout } from '../../core/hooks/useFetchAbout';
 import AboutMeShimmer from '../../components/shimmers/AboutMeShimmer';
 import AboutMeSkills from './about_me_skills';
 import { Helmet } from 'react-helmet-async';
+import { useProfileStore } from '../../core/store/useProfileStore';
 
 const getRandomGradient = (index: number): string => {
     const colors = [
@@ -20,7 +21,8 @@ export default function AboutMeComponent() {
     const titleRef = useRef<HTMLHeadingElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
 
-    const { data, isLoading, error } = useFetchAbout()
+    const { data, isLoading } = useFetchAbout()
+    const { profile } = useProfileStore()
 
     useEffect(() => {
         if (containerRef.current) {
@@ -104,21 +106,29 @@ export default function AboutMeComponent() {
         return <AboutMeShimmer />;
     }
 
-    if (error || !data) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="bg-gray-800/70 rounded-xl p-6 text-red-500">
-                    Failed to load about data
-                </div>
-            </div>
-        );
-    }
+    // Fallback values for when data is null or fields are missing
+    const aboutData = {
+        about: {
+            subheading: data?.about?.subheading || "Not Available",
+            about_me: data?.about?.about_me || "Not Available",
+            my_specialization_details: data?.about?.my_specialization_details || "Not Available",
+            beyond_skills_details: data?.about?.beyond_skills_details || "Not Available",
+            projects_highlights: data?.about?.projects_highlights || "Not Available",
+            email: data?.about?.email || "Not Available",
+            open_to_work: data?.about?.open_to_work || false
+        },
+        core_strengths: data?.core_strengths || [
+            { name: "Not Available", current_points: 0, max_points: 100 },
+            { name: "Not Available", current_points: 0, max_points: 100 },
+            { name: "Not Available", current_points: 0, max_points: 100 }
+        ]
+    };
 
     return (
         <>
             <Helmet>
-                <title>About Me</title>
-                <meta name="description" content={data.about.subheading} />
+                <title>{profile?.name} | About Me</title>
+                <meta name="description" content={profile?.short_info} />
             </Helmet>
             <div ref={containerRef} className="min-h-screen opacity-0 relative overflow-hidden">
                 {/* Animated background elements */}
@@ -134,7 +144,7 @@ export default function AboutMeComponent() {
                         <h2 ref={titleRef} className="text-3xl font-bold text-gray-100 opacity-0">About Me</h2>
                         <div className="about-divider h-1 w-0 bg-indigo-600 mt-3 opacity-0"></div>
                         <p className="mt-4 text-gray-300 max-w-3xl">
-                            {data.about.subheading}
+                            {aboutData.about.subheading}
                         </p>
                     </div>
 
@@ -160,17 +170,17 @@ export default function AboutMeComponent() {
 
                                     <div className="about-paragraph opacity-0 text-gray-300 mb-6 leading-relaxed pl-8 relative">
                                         <div className="absolute w-4 h-4 rounded-full bg-indigo-500 left-0 top-1.5 shadow-lg shadow-indigo-500/30"></div>
-                                        {data.about.about_me}
+                                        {aboutData.about.about_me}
                                     </div>
 
                                     <div className="about-paragraph opacity-0 text-gray-300 mb-6 leading-relaxed pl-8 relative">
                                         <div className="absolute w-4 h-4 rounded-full bg-blue-500 left-0 top-1.5 shadow-lg shadow-blue-500/30"></div>
-                                        {data.about.my_specialization_details}
+                                        {aboutData.about.my_specialization_details}
                                     </div>
 
                                     <div className="about-paragraph opacity-0 text-gray-300 mb-8 leading-relaxed pl-8 relative">
                                         <div className="absolute w-4 h-4 rounded-full bg-purple-500 left-0 top-1.5 shadow-lg shadow-purple-500/30"></div>
-                                        {data.about.beyond_skills_details}
+                                        {aboutData.about.beyond_skills_details}
                                     </div>
                                 </div>
 
@@ -179,7 +189,7 @@ export default function AboutMeComponent() {
                                         Projects Highlight
                                     </div>
                                     <p className="text-gray-300 leading-relaxed">
-                                        {data.about.projects_highlights}
+                                        {aboutData.about.projects_highlights}
                                     </p>
                                 </div>
 
@@ -205,7 +215,7 @@ export default function AboutMeComponent() {
                                         Skills
                                     </a>
 
-                                    <a href={`mailto:${data.about.email}`} className="about-btn opacity-0 flex items-center gap-1.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20 hover:-translate-y-0.5">
+                                    <a href={`mailto:${aboutData.about.email}`} className="about-btn opacity-0 flex items-center gap-1.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20 hover:-translate-y-0.5">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
@@ -245,7 +255,7 @@ export default function AboutMeComponent() {
                                 </h3>
 
                                 <div className="space-y-3">
-                                    {data.core_strengths.map((strength, index) => {
+                                    {aboutData.core_strengths.map((strength, index) => {
                                         const gradient = getRandomGradient(index);
                                         const textColor = gradient.split(' ')[0].replace('from-', 'text-');
 
@@ -270,7 +280,7 @@ export default function AboutMeComponent() {
                             </div>
 
                             {
-                                data.about.open_to_work && (
+                                aboutData.about.open_to_work && (
                                     <div className="about-section opacity-0 bg-gradient-to-br from-indigo-900/50 to-blue-900/50 backdrop-blur-sm border border-gray-700/70 rounded-2xl p-6 shadow-xl relative overflow-hidden">
                                         <div className="flex items-center justify-center">
                                             <div className="bg-white/10 p-4 rounded-xl backdrop-blur-sm">

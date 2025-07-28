@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ABOUT, EXPERIENCE, PROFILE, PROJECT_FILTER, PROJECTS, SKILL_OVERVIEW, SKILLS, SOCIAL_LINKS } from "./endpoints";
+import { ABOUT, BLOG_DETAILS, EXPERIENCE, FETCH_BLOGS, PROFILE, PROJECT_FILTER, PROJECTS, SKILL_OVERVIEW, SKILLS, SOCIAL_LINKS } from "./endpoints";
 import { IProjectFilter } from "../interface/project_filter_interface";
 import { IProfile } from "../interface/profile_interface";
 import { ISocialLink } from "../interface/social_link_interface";
@@ -10,12 +10,13 @@ import { IExperience } from "../interface/experience_interface";
 import { IProject } from "../interface/project_interface";
 import { SelectedFilter } from "../store/useFilterStore";
 import { ISkillOverview } from "../interface/skill_overview_interface";
+import { IBlog, IBlogItem } from "../interface/blog_item_interface";
 
 export class API {
     static getDomain() {
         const domain = window.location.hostname;
         if (domain.includes("localhost")) {
-            return "igaurav.dev";
+            return "gaurav.biosites.in";
         }
         return domain;
     }
@@ -81,5 +82,28 @@ export class API {
     static async getSkillOverview(): Promise<ISkillOverview> {
         const response = await axios.get(SKILL_OVERVIEW + `?domain=${this.getDomain()}`)
         return response.data.data as ISkillOverview
+    }
+
+
+    static async getBlogs(page: number): Promise<{
+        blogs: IBlogItem[],
+        nextPage: number | null,
+        hasNextPage: boolean,
+        total: number
+    }> {
+        const response = await axios.get(FETCH_BLOGS + `?domain=${this.getDomain()}&page=${page}&limit=10`)
+        return {
+            blogs: response.data.blogs,
+            nextPage: response.data.nextPage,
+            hasNextPage: response.data.hasNextPage,
+            total: response.data.total,
+        }
+    }
+
+
+    static async fetchBlogDetails(id: string): Promise<IBlog> {
+        const response = await axios.get(`${BLOG_DETAILS}/${id}?domain=${this.getDomain()}`)
+        // Try both response.data.data and response.data
+        return (response.data.data || response.data) as IBlog
     }
 }

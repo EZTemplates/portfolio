@@ -4,8 +4,9 @@ import AboutUs from '../../sections/about_me/AboutMeComponent';
 import ExpPage from '../../sections/experience/MyExperienceComponent';
 import ProjectSection from '../../sections/project/MyProjectComponent';
 import HomeSkillsSection from '../../sections/HomeSkillsSection';
-import CommunitySection from '../../sections/MyActivitiesComponent';
 import Error404Page from '../../sections/Error404Page';
+import BlogsSection from '../../sections/blogs/BlogsSection';
+import BlogDetailsSection from '../../sections/blogs/BlogDetailsSection';
 
 export const appRoute = createBrowserRouter([
     {
@@ -33,8 +34,16 @@ export const appRoute = createBrowserRouter([
                 element: <HomeSkillsSection />
             },
             {
-                path: "community",
-                element: <CommunitySection />
+                path: "blogs",
+                element: <BlogsSection />
+            },
+            {
+                path: "blogs/:id",
+                element: <BlogDetailsSection />
+            },
+            {
+                path: "about",
+                element: <AboutUs />
             }
         ]
     },
