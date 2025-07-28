@@ -6,6 +6,7 @@ import './styles/scrollbar-hide.css';
 import { useFetchFilter } from './core/hooks/useFetchFilter'
 import LoadingView from './components/LoadingView';
 import { useFetchProfile } from './core/hooks/useFetchProfile';
+import BrandingComponent from './components/BrandingComponent';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
 
   return (
     <div className="min-h-screen w-full">
+      <BrandingComponent />
       {/* Small screens: entire layout is scrollable */}
       <div className="md:hidden min-h-screen bg-gray-900 text-gray-100 pb-16">
         <div className="pt-14 pb-2 bg-gray-900 shadow-md">

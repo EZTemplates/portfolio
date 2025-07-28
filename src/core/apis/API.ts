@@ -16,7 +16,7 @@ export class API {
     static getDomain() {
         const domain = window.location.hostname;
         if (domain.includes("localhost")) {
-            return "frenzycoder.biosites.in";
+            return "gaurav.biosites.in";
         }
         return domain;
     }
